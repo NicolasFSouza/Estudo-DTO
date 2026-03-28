@@ -2,6 +2,7 @@ package com.saas.catalogoapi.service;
 
 import com.saas.catalogoapi.dto.CategoriaRequest;
 import com.saas.catalogoapi.dto.CategoriaResponse;
+import com.saas.catalogoapi.exception.CategoriaNotFoundException;
 import com.saas.catalogoapi.dto.ProdutoRequest;
 import com.saas.catalogoapi.dto.ProdutoResponse;
 
@@ -21,9 +22,24 @@ public class CategoriaService {
 
     public CategoriaService(){
         categorias.add(new CategoriaResponse(
-                contadorId.incrementAndGet(), "eletrónicos", "Itens eletrónicos"));
+                contadorId.incrementAndGet(), "eletrônicos", "Itens eletrônicos"));
         categorias.add(new CategoriaResponse(
-                contadorId.incrementAndGet(), "Periféricos", "Itens eletrónicos"));
+                contadorId.incrementAndGet(), "Periféricos", "Itens para computador"));
 
     }
+    public List<CategoriaResponse> listarTodos(){return categorias;}
+    public CategoriaResponse listarPorId(Long id){
+        return categorias.stream().filter(categoriaResponse -> categoriaResponse.id().equals(id)).findFirst().orElseThrow(()-> new CategoriaNotFoundException(id));
+    }
+    public CategoriaResponse criar (CategoriaRequest request){
+         CategoriaResponse novaCategoria = new CategoriaResponse(
+            contadorId.incrementAndGet(),
+            request.nome(),
+            request.descricao()
+        );
+         categorias.add(novaCategoria);
+         return novaCategoria;
+
+    }
+
 }

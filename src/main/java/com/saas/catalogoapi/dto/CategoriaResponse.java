@@ -1,7 +1,7 @@
 package com.saas.catalogoapi.dto;
 
 public record CategoriaResponse(
-        long id,
+        Long id,
         String nome,
         String descricao
 ) {
